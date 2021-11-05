@@ -57,7 +57,7 @@ char StartParsing (const FileSize bufferSize, State *state) {
     if (IS_NULL (state))
         return 1;
 
-    for (state->pc; state->pc < bufferSize; state->pc)
+    while (state->pc < bufferSize)
         if (CommandRecognizer ((Mask) state->Memory.buffer + state->pc, state))
             return 1;
 

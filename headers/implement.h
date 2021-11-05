@@ -15,7 +15,7 @@ typedef uint32_t    ProgCounter;
 typedef struct State {
 
     PhysMemory  Memory;
-    RegValue    Registors[32];
+    RegValue    Registers[32];
     ProgCounter pc;
 } State; 
 
@@ -25,7 +25,6 @@ typedef struct State {
 char ImplAdd  (State* state, const RegNumber numRs1, const RegNumber numRs2, const RegNumber numRd);
 char ImplAddI (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd);
 char ImplSub  (State* state, const RegNumber numRs1, const RegNumber numRs2, const RegNumber numRd);
-
 //-------------------------------------------------------------------------
 //                           ###___Logical___###
 //-------------------------------------------------------------------------
@@ -35,20 +34,17 @@ char ImplOr    (State* state, const RegNumber numRs1, const RegNumber numRs2, co
 char ImplOrI   (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd);
 char ImplXor   (State* state, const RegNumber numRs1, const RegNumber numRs2, const RegNumber numRd);
 char ImplXorI  (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd);
-
 //-------------------------------------------------------------------------
 //                         ###___Comparison___###
 //-------------------------------------------------------------------------
 char ImplSltI  (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd);
 char ImplSltIU (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd); 
-
 //-------------------------------------------------------------------------
 //                          ###___Shifts___###
 //-------------------------------------------------------------------------
 char ImplSllI  (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd);
 char ImplSrlI  (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd);
 char ImplSraI  (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd);
-
 //-------------------------------------------------------------------------
 //                          ###___Memory___###
 //-------------------------------------------------------------------------
@@ -58,12 +54,10 @@ char ImplLw    (State* state, ImmValue  imm,    const RegNumber numRs1, const Re
 char ImplSb    (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRs2);
 char ImplSh    (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRs2);
 char ImplSw    (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRs2);
-
 //-------------------------------------------------------------------------
 //                           ###___LUI___###
 //-------------------------------------------------------------------------
 char ImplLui   (State* state, ImmValue  imm,   const RegNumber numRd);
-
 //-------------------------------------------------------------------------
 //                      ###___Unconditional jumps___###
 //-------------------------------------------------------------------------
@@ -79,10 +73,24 @@ char ImplBge   (State* state, ImmValue  imm,   const RegNumber numRs1, const Reg
 char ImplBltU  (State* state, ImmValue  imm,   const RegNumber numRs1, const RegNumber numRs2);
 char ImplBgeU  (State* state, ImmValue  imm,   const RegNumber numRs1, const RegNumber numRs2);
 //-------------------------------------------------------------------------
+//                        ###___Dump functions___###
+//-------------------------------------------------------------------------
+char DumpInstructionsRType (State* state, const RegNumber numRs1, const RegNumber numRs2, 
+                            const RegNumber numRd, const char* instruction, const char* function); 
+char DumpInstructionsIType (State* state, const ImmValue imm, const RegNumber numRs1, 
+                            const RegNumber numRd, const char* instruction, const char* function);
+char DumpInstructionsBType (State* state, const ImmValue imm, const RegNumber numRs1, 
+                            const RegNumber numRs2, const char* instruction, const char* function);
+char DumpInstructionsUType (State* state, const ImmValue imm, const RegNumber numRsD, 
+                            const char* instruction, const char* function);
+//-------------------------------------------------------------------------
 //                       ###___Checking for zero___###
 //-------------------------------------------------------------------------
 #define ZERO_POINTER                    \
                         if (!state)     \
                             return 1;
 
+#define ZERO_RD         \
+                        if (!numRd) \
+                            return 1; 
 #endif
