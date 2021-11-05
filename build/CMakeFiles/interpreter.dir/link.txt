@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/interpreter.dir/sources/main.c.o CMakeFiles/interpreter.dir/sources/errors.c.o CMakeFiles/interpreter.dir/sources/implement.c.o CMakeFiles/interpreter.dir/sources/parser.c.o  -o interpreter 

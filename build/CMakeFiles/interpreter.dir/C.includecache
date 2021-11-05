@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../headers/common.h
+stdio.h
+-
+stdlib.h
+-
+stdint.h
+-
+sys/types.h
+-
+fcntl.h
+-
+sys/stat.h
+-
+unistd.h
+-
+errno.h
+-
+parser.h
+../headers/parser.h
+
+../headers/implement.h
+physmemory.h
+../headers/physmemory.h
+
+../headers/parser.h
+implement.h
+../headers/implement.h
+
+../headers/physmemory.h
+stdint.h
+-
+
+/home/kolobaka2000/PRIVATE/RISC-V-my/sources/implement.c
+common.h
+/home/kolobaka2000/PRIVATE/RISC-V-my/sources/common.h
+

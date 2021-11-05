@@ -8,7 +8,6 @@ typedef int8_t  OneByte;
 typedef int16_t TwoBytes;
 typedef int32_t FourBytes;
 
-
 typedef struct PhysMemory {
 
     char buffer [PHYS_MEM_SIZE];

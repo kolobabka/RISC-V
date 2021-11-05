@@ -1,32 +1,26 @@
-#include "../common.h"
+#include "common.h"
 //-------------------------------------------------------------------------
 //--------------------------------ARITHMETIC-------------------------------
 //-------------------------------------------------------------------------
-char ImplAdd  (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numRd) {
+char ImplAdd  (State* state, const RegNumber numRs1, const RegNumber numRs2, const RegNumber numRd) {
 
     ZERO_POINTER
     
     state->Registors[numRd] = state->Registors[numRs1] + state->Registors[numRs2];
     state->pc += 4;
-    printf ("***add = %d\n", state->Registors[numRd]);
-    printf ("num = %d\n", numRd);
-    printf ("pc = %d\n", state->pc);
     return 0;
 } 
 //-------------------------------------------------------------------------
-char ImplAddI (State* state, ImmValue imm,  RegNumber numRs1, RegNumber numRd) {
+char ImplAddI (State* state, ImmValue imm,  const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
     state->Registors[numRd] = state->Registors[numRs1] + imm;
     state->pc += 4;
-    printf ("***addi = %d\n", state->Registors[numRd]);
-    printf ("num = %d\n", numRd);
-    printf ("pc = %d\n", state->pc);
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplSub  (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numRd) {
+char ImplSub  (State* state, const RegNumber numRs1, const RegNumber numRs2, const RegNumber numRd) {
 
     ZERO_POINTER
     
@@ -37,7 +31,7 @@ char ImplSub  (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numRd
 //-------------------------------------------------------------------------
 //------------------------------LOGICAL OPERS------------------------------
 //-------------------------------------------------------------------------
-char ImplAnd  (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numRd) {
+char ImplAnd  (State* state, const RegNumber numRs1, const RegNumber numRs2, const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -46,7 +40,7 @@ char ImplAnd  (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numRd
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplAndI  (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd) {
+char ImplAndI  (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd) {
     
     ZERO_POINTER
     
@@ -55,7 +49,7 @@ char ImplAndI  (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numR
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplOr    (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numRd) {
+char ImplOr    (State* state, const RegNumber numRs1, const RegNumber numRs2, const RegNumber numRd) {
 
     ZERO_POINTER
     
@@ -64,7 +58,7 @@ char ImplOr    (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numR
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplOrI   (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd) {
+char ImplOrI   (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd) {
     
     ZERO_POINTER
     
@@ -73,33 +67,27 @@ char ImplOrI   (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numR
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplXor   (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numRd) {
+char ImplXor   (State* state, const RegNumber numRs1, const RegNumber numRs2, const RegNumber numRd) {
 
     ZERO_POINTER
     
     state->Registors[numRd] = state->Registors[numRs1] ^ state->Registors[numRs2];
     state->pc += 4;
-    printf ("***xor = %d\n", state->Registors[numRd]);
-    printf ("num = %d\n", numRd);
-    printf ("PC = %d\n", state->pc);
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplXorI   (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd) {
+char ImplXorI   (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd) {
     
     ZERO_POINTER
 
-    
     state->Registors[numRd] = state->Registors[numRs1] ^ imm;
     state->pc += 4;
-    printf ("***xorI = %d\n", state->Registors[numRd]);
-    printf ("num = %d\n", numRd);
     return 0;
 }
 //-------------------------------------------------------------------------
 //----------------------------COMPARISON OPERS-----------------------------
 //-------------------------------------------------------------------------
-char ImplSltI (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd) {
+char ImplSltI (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -109,28 +97,25 @@ char ImplSltI (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd
         state->Registors[numRd] = 0;    
 
     state->pc += 4;
-    printf ("***SLTI = %d\n", state->Registors[numRd]);
-    printf ("num = %d\n", numRd);
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplSltIU (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd) {
+char ImplSltIU (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
-    if ((state->Registors[numRs1]) < imm)
+    if ((state->Registors[numRs1]) < (RegValue) imm)
         state->Registors[numRd] = 1;
     else    
         state->Registors[numRd] = 0;      
+
     state->pc += 4;
-    printf ("***SLTIU = %d\n", state->Registors[numRd]);
-    printf ("num = %d\n", numRd);
     return 0;
 }
 //-------------------------------------------------------------------------
 //---------------------------------SHIFTS----------------------------------
 //-------------------------------------------------------------------------
-char ImplSllI (State* state, ImmValue  imm, RegNumber numRs1, RegNumber numRd) {
+char ImplSllI (State* state, ImmValue  imm, const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -139,7 +124,7 @@ char ImplSllI (State* state, ImmValue  imm, RegNumber numRs1, RegNumber numRd) {
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplSrlI (State* state, ImmValue  imm, RegNumber numRs1, RegNumber numRd) {
+char ImplSrlI (State* state, ImmValue  imm, const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -148,7 +133,7 @@ char ImplSrlI (State* state, ImmValue  imm, RegNumber numRs1, RegNumber numRd) {
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplSraI (State* state, ImmValue  imm, RegNumber numRs1, RegNumber numRd) {
+char ImplSraI (State* state, ImmValue  imm, const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -159,7 +144,7 @@ char ImplSraI (State* state, ImmValue  imm, RegNumber numRs1, RegNumber numRd) {
 //-------------------------------------------------------------------------
 //-----------------------------MEMORY OPERS--------------------------------
 //-------------------------------------------------------------------------
-char ImplLb    (State* state, ImmValue  imm, RegNumber numRs1, RegNumber numRd) {
+char ImplLb    (State* state, ImmValue  imm, const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -168,7 +153,7 @@ char ImplLb    (State* state, ImmValue  imm, RegNumber numRs1, RegNumber numRd) 
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplLh    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd) {
+char ImplLh    (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -177,7 +162,7 @@ char ImplLh    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numR
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplLw    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd) {
+char ImplLw    (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -186,7 +171,7 @@ char ImplLw    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numR
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplSb    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRs2) { 
+char ImplSb    (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRs2) { 
 
     ZERO_POINTER
 
@@ -195,7 +180,7 @@ char ImplSb    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numR
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplSh    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRs2) { 
+char ImplSh    (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRs2) { 
 
     ZERO_POINTER
 
@@ -204,7 +189,7 @@ char ImplSh    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numR
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplSw   (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRs2) { 
+char ImplSw   (State* state, ImmValue  imm,    const RegNumber numRs1, const RegNumber numRs2) { 
 
     ZERO_POINTER
 
@@ -215,7 +200,7 @@ char ImplSw   (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRs
 //-------------------------------------------------------------------------
 //---------------------------------LUI-------------------------------------
 //-------------------------------------------------------------------------
-char ImplLui   (State* state, ImmValue  imm,   RegNumber numRd) {
+char ImplLui   (State* state, ImmValue  imm,   const RegNumber numRd) {
 
     ZERO_POINTER
 
@@ -227,95 +212,108 @@ char ImplLui   (State* state, ImmValue  imm,   RegNumber numRd) {
 //-------------------------------------------------------------------------
 //--------------------------UNCONDITIONAL JUMPS----------------------------
 //-------------------------------------------------------------------------
-char ImplJal   (State* state, ImmValue  imm,   RegNumber numRd) {
+char ImplJal   (State* state, ImmValue  imm,   const RegNumber numRd) {
 
     ZERO_POINTER
 
     state->Registors[numRd] = state->pc + 4;
     state->pc += imm;
-
-    printf ("***jal = %d\n", state->Registors[numRd]);
-    printf ("imm = %u\n", imm);
-    printf ("num = %d\n", numRd);
-    printf ("pc = %d\n", state->pc);
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplJalR  (State* state, ImmValue  imm,  RegNumber numRs1, RegNumber numRd) {
+char ImplJalR  (State* state, ImmValue  imm,  const RegNumber numRs1, const RegNumber numRd) {
 
     ZERO_POINTER
 
-    state->Registors[numRd] = state->pc + sizeof (RegValue);
-    state->pc = (state->Registors[numRs1] + imm) << 1;
+    state->Registors[numRd] = state->pc + 4;
+    state->pc = ((state->Registors[numRs1] + imm) >> 1) << 1;
     state->pc = state->pc & ~(1u << 0);
     return 0;
 }
 //-------------------------------------------------------------------------
 //                         ###___Conditional jumps___###
 //-------------------------------------------------------------------------
-char ImplBeq   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2) {
+char ImplBeq   (State* state, ImmValue  imm,   const RegNumber numRs1, const RegNumber numRs2) {
 
     ZERO_POINTER
 
-    if (state->Registors[numRs1] == state->Registors[numRs2])
+    if (state->Registors[numRs1] == state->Registors[numRs2]) {
         state->pc += imm;
+        return 0;
+    }
     
-    state->pc += 4; // ????????
+    state->pc += 4; 
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplBne   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2) {
+char ImplBne   (State* state, ImmValue  imm,   const RegNumber numRs1, const RegNumber numRs2) {
 
     ZERO_POINTER
 
-    if (state->Registors[numRs1] != state->Registors[numRs2])
+    if (state->Registors[numRs1] != state->Registors[numRs2]) {
         state->pc += imm;
+        return 0;
+    }
     
-    state->pc += 4; // ????????
+    state->pc += 4;
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplBlt   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2) {
+char ImplBlt   (State* state, ImmValue  imm,   const RegNumber numRs1, const RegNumber numRs2) {
 
     ZERO_POINTER
 
-    if ((SignedRegValue) state->Registors[numRs1] < (SignedRegValue) state->Registors[numRs2])
+    if ((SignedRegValue) state->Registors[numRs1] < (SignedRegValue) state->Registors[numRs2]) {
         state->pc += imm;
+        return 0;
+    }
     
-    state->pc += 4; // ????????
+    state->pc += 4; 
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplBge   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2) {
+char ImplBge   (State* state, ImmValue  imm, const RegNumber numRs1, const RegNumber numRs2) {
 
     ZERO_POINTER
 
-    if ((SignedRegValue) state->Registors[numRs1] >= (SignedRegValue) state->Registors[numRs2])
+    if ((SignedRegValue) state->Registors[numRs1] >= (SignedRegValue) state->Registors[numRs2]) {
         state->pc += imm;
-    
-    state->pc += 4; // ????????
+        return 0;
+    }
+
+    state->pc += 4;
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplBltU   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2) {
+char ImplBltU   (State* state, ImmValue  imm,   const RegNumber numRs1, const RegNumber numRs2) {
 
     ZERO_POINTER
 
-    if (state->Registors[numRs1] < state->Registors[numRs2])
+    if (state->Registors[numRs1] < state->Registors[numRs2]) {
         state->pc += imm;
+        return 0;
+    }
     
-    state->pc += 4; // ????????
+    state->pc += 4; 
     return 0;
 }
 //-------------------------------------------------------------------------
-char ImplBgeU   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2) {
+char ImplBgeU   (State* state, ImmValue  imm,   const RegNumber numRs1, const RegNumber numRs2) {
 
     ZERO_POINTER
 
-    if (state->Registors[numRs1] >= state->Registors[numRs2])
+    if (state->Registors[numRs1] >= state->Registors[numRs2]) {
         state->pc += imm;
+        return 0;
+    }
     
-    state->pc += 4; // ????????
+    state->pc += 4; 
     return 0;
 }
+//-------------------------------------------------------------------------
+// char DumpInstructions (State* state, ImmValue  imm, const RegNumber numRs1, const RegNumber numRs2, ) {
 
+    
+//     return 0;
+// }
+//-------------------------------------------------------------------------

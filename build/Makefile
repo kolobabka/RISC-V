@@ -111,125 +111,125 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named exec
+# Target rules for targets named interpreter
 
 # Build rule for target.
-exec: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 exec
-.PHONY : exec
+interpreter: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 interpreter
+.PHONY : interpreter
 
 # fast build rule for target.
-exec/fast:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/build
-.PHONY : exec/fast
+interpreter/fast:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/build
+.PHONY : interpreter/fast
 
-errors.o: errors.c.o
+sources/errors.o: sources/errors.c.o
 
-.PHONY : errors.o
-
-# target to build an object file
-errors.c.o:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/errors.c.o
-.PHONY : errors.c.o
-
-errors.i: errors.c.i
-
-.PHONY : errors.i
-
-# target to preprocess a source file
-errors.c.i:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/errors.c.i
-.PHONY : errors.c.i
-
-errors.s: errors.c.s
-
-.PHONY : errors.s
-
-# target to generate assembly for a file
-errors.c.s:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/errors.c.s
-.PHONY : errors.c.s
-
-implement/implement.o: implement/implement.c.o
-
-.PHONY : implement/implement.o
+.PHONY : sources/errors.o
 
 # target to build an object file
-implement/implement.c.o:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/implement/implement.c.o
-.PHONY : implement/implement.c.o
+sources/errors.c.o:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/errors.c.o
+.PHONY : sources/errors.c.o
 
-implement/implement.i: implement/implement.c.i
+sources/errors.i: sources/errors.c.i
 
-.PHONY : implement/implement.i
+.PHONY : sources/errors.i
 
 # target to preprocess a source file
-implement/implement.c.i:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/implement/implement.c.i
-.PHONY : implement/implement.c.i
+sources/errors.c.i:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/errors.c.i
+.PHONY : sources/errors.c.i
 
-implement/implement.s: implement/implement.c.s
+sources/errors.s: sources/errors.c.s
 
-.PHONY : implement/implement.s
+.PHONY : sources/errors.s
 
 # target to generate assembly for a file
-implement/implement.c.s:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/implement/implement.c.s
-.PHONY : implement/implement.c.s
+sources/errors.c.s:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/errors.c.s
+.PHONY : sources/errors.c.s
 
-main.o: main.c.o
+sources/implement.o: sources/implement.c.o
 
-.PHONY : main.o
+.PHONY : sources/implement.o
 
 # target to build an object file
-main.c.o:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/main.c.o
-.PHONY : main.c.o
+sources/implement.c.o:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/implement.c.o
+.PHONY : sources/implement.c.o
 
-main.i: main.c.i
+sources/implement.i: sources/implement.c.i
 
-.PHONY : main.i
+.PHONY : sources/implement.i
 
 # target to preprocess a source file
-main.c.i:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/main.c.i
-.PHONY : main.c.i
+sources/implement.c.i:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/implement.c.i
+.PHONY : sources/implement.c.i
 
-main.s: main.c.s
+sources/implement.s: sources/implement.c.s
 
-.PHONY : main.s
+.PHONY : sources/implement.s
 
 # target to generate assembly for a file
-main.c.s:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/main.c.s
-.PHONY : main.c.s
+sources/implement.c.s:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/implement.c.s
+.PHONY : sources/implement.c.s
 
-parser/parser.o: parser/parser.c.o
+sources/main.o: sources/main.c.o
 
-.PHONY : parser/parser.o
+.PHONY : sources/main.o
 
 # target to build an object file
-parser/parser.c.o:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/parser/parser.c.o
-.PHONY : parser/parser.c.o
+sources/main.c.o:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/main.c.o
+.PHONY : sources/main.c.o
 
-parser/parser.i: parser/parser.c.i
+sources/main.i: sources/main.c.i
 
-.PHONY : parser/parser.i
+.PHONY : sources/main.i
 
 # target to preprocess a source file
-parser/parser.c.i:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/parser/parser.c.i
-.PHONY : parser/parser.c.i
+sources/main.c.i:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/main.c.i
+.PHONY : sources/main.c.i
 
-parser/parser.s: parser/parser.c.s
+sources/main.s: sources/main.c.s
 
-.PHONY : parser/parser.s
+.PHONY : sources/main.s
 
 # target to generate assembly for a file
-parser/parser.c.s:
-	$(MAKE) -f CMakeFiles/exec.dir/build.make CMakeFiles/exec.dir/parser/parser.c.s
-.PHONY : parser/parser.c.s
+sources/main.c.s:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/main.c.s
+.PHONY : sources/main.c.s
+
+sources/parser.o: sources/parser.c.o
+
+.PHONY : sources/parser.o
+
+# target to build an object file
+sources/parser.c.o:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/parser.c.o
+.PHONY : sources/parser.c.o
+
+sources/parser.i: sources/parser.c.i
+
+.PHONY : sources/parser.i
+
+# target to preprocess a source file
+sources/parser.c.i:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/parser.c.i
+.PHONY : sources/parser.c.i
+
+sources/parser.s: sources/parser.c.s
+
+.PHONY : sources/parser.s
+
+# target to generate assembly for a file
+sources/parser.c.s:
+	$(MAKE) -f CMakeFiles/interpreter.dir/build.make CMakeFiles/interpreter.dir/sources/parser.c.s
+.PHONY : sources/parser.c.s
 
 # Help Target
 help:
@@ -239,19 +239,19 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... exec"
-	@echo "... errors.o"
-	@echo "... errors.i"
-	@echo "... errors.s"
-	@echo "... implement/implement.o"
-	@echo "... implement/implement.i"
-	@echo "... implement/implement.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... parser/parser.o"
-	@echo "... parser/parser.i"
-	@echo "... parser/parser.s"
+	@echo "... interpreter"
+	@echo "... sources/errors.o"
+	@echo "... sources/errors.i"
+	@echo "... sources/errors.s"
+	@echo "... sources/implement.o"
+	@echo "... sources/implement.i"
+	@echo "... sources/implement.s"
+	@echo "... sources/main.o"
+	@echo "... sources/main.i"
+	@echo "... sources/main.s"
+	@echo "... sources/parser.o"
+	@echo "... sources/parser.i"
+	@echo "... sources/parser.s"
 .PHONY : help
 
 

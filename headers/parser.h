@@ -1,7 +1,7 @@
 #ifndef INTERPRET_H__
 #define INTERPRET_H__
 
-#include "../implement/implement.h"
+#include "implement.h"
 
 typedef int32_t        Command;
 typedef uint32_t       Opcode;

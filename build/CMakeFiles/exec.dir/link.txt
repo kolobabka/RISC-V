@@ -1,1 +1,0 @@
-/usr/bin/cc    CMakeFiles/exec.dir/main.c.o CMakeFiles/exec.dir/errors.c.o CMakeFiles/exec.dir/implement/implement.c.o CMakeFiles/exec.dir/parser/parser.c.o  -o exec 
