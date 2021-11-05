@@ -63,14 +63,22 @@ char ImplSw    (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numR
 //-------------------------------------------------------------------------
 //---------------------------------LUI-------------------------------------
 //-------------------------------------------------------------------------
-char ImplLui    (State* state, ImmValue  imm,   RegNumber numRd);
+char ImplLui   (State* state, ImmValue  imm,   RegNumber numRd);
 
 //-------------------------------------------------------------------------
 //--------------------------UNCONDITIONAL JUMPS----------------------------
 //-------------------------------------------------------------------------
-char ImplJal    (State* state, ImmValue  imm,   RegNumber numRd);
-char ImplJalR   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRd);
-
+char ImplJal   (State* state, ImmValue  imm,   RegNumber numRd);
+char ImplJalR  (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRd);
+//-------------------------------------------------------------------------
+//                         ###___Conditional jumps___###
+//-------------------------------------------------------------------------
+char ImplBeq   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2);
+char ImplBne   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2);
+char ImplBlt   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2);
+char ImplBge   (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2);
+char ImplBltU  (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2);
+char ImplBgeU  (State* state, ImmValue  imm,   RegNumber numRs1, RegNumber numRs2);
 
 #define ZERO_POINTER                    \
                         if (!state)     \

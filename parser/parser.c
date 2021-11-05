@@ -52,14 +52,13 @@ char StartProgramm (const char* fileName) {
     return 0;
 }
 
-#define COMMAND_SIZE 4
-
 char StartParsing (const FileSize bufferSize, State *state) {
 
     if (IS_NULL (state))
         return 1;
-    for (FileSize curBufInd = 0; curBufInd < bufferSize; curBufInd += 4)
-        if (CommandRecognizer ((Mask) state->Memory.buffer + curBufInd, state))
+
+    for (state->pc; state->pc < bufferSize; state->pc)
+        if (CommandRecognizer ((Mask) state->Memory.buffer + state->pc, state))
             return 1;
 
     return 0;
@@ -91,8 +90,8 @@ static int ExtendedImm (ImmValue imm, char startBit) {
     return extendedImm;
 }
 
-static int RecognizeCommand1   (const ImmValue funct3, const RegValue rs2, const RegValue rs1,
-                                const ImmValue funct7, const RegValue rd, State* state) { //add, sub, xor, or, and
+static int RecognizeCommand1   (const ImmValue funct3, const RegNumber rs2, const RegNumber rs1,
+                                const ImmValue funct7, const RegNumber rd, State* state) { //add, sub, xor, or, and
 
     
     switch (funct7) {
@@ -117,26 +116,24 @@ static int RecognizeCommand1   (const ImmValue funct3, const RegValue rs2, const
     return -1;
 }
 
-static int ShiftRecognizer (const uint32_t frontConst, const uint32_t shamt, const uint32_t rs1,
-                            const uint32_t middleConst, const uint32_t rd, State* state) {
+static int ShiftRecognizer (const ImmValue funct7, const ImmValue shamt, const RegNumber rs1,
+                            const ImmValue funct3, const RegNumber rd, State* state) {
 
-    if (middleConst == 0b001) //slli
+    if (funct3 == 0b001) //slli
         return ImplSllI (state, shamt, rs1, rd);
-    else if (middleConst == 0b101) { //srli or srai
+    else if (funct3 == 0b101) { //srli or srai
 
-        if (frontConst == 0)//srli 
-            return ImplSrlI (state, shamt, rs1, rd);
-        else if (frontConst == 32) //srai
-            return ImplSraI (state, shamt, rs1, rd);
-
+    if (funct7 == 0)//srli 
+        return ImplSrlI (state, shamt, rs1, rd);
+    else if (funct7 == 32) //srai
+        return ImplSraI (state, shamt, rs1, rd);
     }
-
     return -1;
 
 }
 
-static int ArithmeticRecognizer   (const ImmValue imm, const RegValue rs1, 
-                                   const ImmValue funct3, const RegValue rd, State* state) {
+static int ArithmeticRecognizer   (const ImmValue imm, const RegNumber rs1, 
+                                   const ImmValue funct3, const RegNumber rd, State* state) {
     
     switch (funct3) {
 
@@ -159,15 +156,15 @@ static int ArithmeticRecognizer   (const ImmValue imm, const RegValue rs1,
     }
 }
 
-static int RecognizeCommand2 (const Mask command, const RegValue rs1,
-                              const ImmValue funct3, const RegValue rd, State* state) {
+static int RecognizeCommand2 (const Mask command, const RegNumber rs1,
+                              const ImmValue funct3, const RegNumber rd, State* state) {
 
     if (funct3 == 0b101 || funct3 == 0b001) { //slli, srli, srai //TODO Maybe extend, function is wrong and so on :( 
 
         ImmValue shamt       = RecognizeBits (command, 20, 24);
-        ImmValue frontConst  = RecognizeBits (command, 25, 31);
+        ImmValue funct7  = RecognizeBits (command, 25, 31);
 
-        return ShiftRecognizer (frontConst, shamt, rs1, funct3, rd, state);
+        return ShiftRecognizer (funct7, shamt, rs1, funct3, rd, state);
     }
 
     ImmValue imm = RecognizeBits (command, 20, 31);
@@ -176,8 +173,8 @@ static int RecognizeCommand2 (const Mask command, const RegValue rs1,
     return ArithmeticRecognizer (imm, rs1, funct3, rd, state);
 }
 
-static int RecognizeCommand3   (const ImmValue imm, const RegValue rs1, const ImmValue funct3, 
-                                const RegValue rd, State* state) {
+static int RecognizeCommand3   (const ImmValue imm, const RegNumber rs1, const ImmValue funct3, 
+                                const RegNumber rd, State* state) {
 
     switch (funct3) {
 
@@ -192,8 +189,8 @@ static int RecognizeCommand3   (const ImmValue imm, const RegValue rs1, const Im
     return -1;
 }
 
-static int RecognizeCommand4 (const uint32_t imm, const uint32_t rs2, const uint32_t rs1,
-                              const uint32_t funct3, State* state) {
+static int RecognizeCommand4 (const ImmValue imm, const RegNumber rs2, const RegNumber rs1,
+                              const ImmValue funct3, State* state) {
 
     switch (funct3) { //!TODO
 
@@ -208,34 +205,31 @@ static int RecognizeCommand4 (const uint32_t imm, const uint32_t rs2, const uint
     return -1;
 }
 
-static int BranchOpsHandle (const uint32_t frontImm, const uint32_t rs2, const uint32_t rs1,
-                            const uint32_t middleConst, const uint32_t lastImm) {
+static int BranchOpsHandle (State *state, const ImmValue imm, const RegNumber rs2, const RegNumber rs1,
+                            const ImmValue funct3) {
 
-    switch (middleConst) { //!TODO
+    switch (funct3) { //!TODO
 
         case 0b000:
             printf ("beq\n");//return beq (...);
-            return 0;
+            return ImplBeq (state, imm, rs1, rs2);
         case 0b001:
             printf ("bne\n");//return bne (...);
-            return 0;
+            return ImplBne (state, imm, rs1, rs2);
         case 0b100:
             printf ("blt\n");//return blt (...);
-            return 0;
+            return ImplBlt (state, imm, rs1, rs2);
         case 0b101:
             printf ("bge\n");//return bge (...);
-            return 0;
+            return ImplBge (state, imm, rs1, rs2);
         case 0b110:
             printf ("bltu\n");//return bltu (...);
-            return 0;
+            return ImplBltU (state, imm, rs1, rs2);
         case 0b111:
             printf ("bgeu\n");//return bgeu (...);
-            return 0;
-
+            return ImplBgeU (state, imm, rs1, rs2);
     }
-
     return -1;
-
 }
 
 static char CommandRecognizer (const Mask command, State *state) {
@@ -249,27 +243,27 @@ static char CommandRecognizer (const Mask command, State *state) {
 
             printf ("I'm here!\n");
             
-            RegValue rd          = RecognizeBits (command, 7, 11);
+            RegNumber rd         = RecognizeBits (command, 7, 11);
             ImmValue funct3      = RecognizeBits (command, 12, 14);
-            RegValue rs1         = RecognizeBits (command, 15, 19);
-            RegValue rs2         = RecognizeBits (command, 20, 24);
+            RegNumber rs1        = RecognizeBits (command, 15, 19);
+            RegNumber rs2        = RecognizeBits (command, 20, 24);
             ImmValue funct7      = RecognizeBits (command, 25, 31);
 
             return RecognizeCommand1 (funct3, rs2, rs1, funct7, rd, state);
         }
         case Op2: {   //addi, slti, sltiu, xori, ori, andi, slli, srli, srai
 
-            RegValue rd          = RecognizeBits (command, 7, 11);
+            RegNumber rd         = RecognizeBits (command, 7, 11);
             ImmValue funct3      = RecognizeBits (command, 12, 14);
-            RegValue rs1         = RecognizeBits (command, 15, 19);
+            RegNumber rs1        = RecognizeBits (command, 15, 19);
 
             return RecognizeCommand2 (command, rs1, funct3, rd, state);
         }
         case Op3: {    //lb, lh, lw
 
-            RegValue rd          = RecognizeBits (command, 7, 11);
+            RegNumber rd         = RecognizeBits (command, 7, 11);
             ImmValue funct3      = RecognizeBits (command, 12, 14);
-            RegValue rs1         = RecognizeBits (command, 15, 19);
+            RegNumber rs1        = RecognizeBits (command, 15, 19);
             ImmValue imm         = RecognizeBits (command, 20, 31);
 
             imm = ExtendedImm (imm, 11);
@@ -278,8 +272,8 @@ static char CommandRecognizer (const Mask command, State *state) {
         case Op4: {   //sb, sh, sw
 
             ImmValue funct3      = RecognizeBits (command, 12, 14);
-            RegValue rs1         = RecognizeBits (command, 15, 19);
-            RegValue rs2         = RecognizeBits (command, 20, 24);
+            RegNumber rs1        = RecognizeBits (command, 15, 19);
+            RegNumber rs2        = RecognizeBits (command, 20, 24);
 
             ImmValue imm = 0;
 
@@ -289,35 +283,41 @@ static char CommandRecognizer (const Mask command, State *state) {
         }
         case Op5: { //lui
 
-            RegValue rd          = RecognizeBits (command, 7, 11);
-            ImmValue imm         = RecognizeBits (command, 12, 31);
+            RegNumber rd          = RecognizeBits (command, 7, 11);
+            ImmValue imm          = RecognizeBits (command, 12, 31);
             imm = ExtendedImm (imm, 19);
             return ImplLui (state, imm, rd);
         }
         case Op6: { //jal
 
-            RegValue rd          = RecognizeBits (command, 7, 11);
-            ImmValue imm         = RecognizeBits (command, 12, 31);
+            RegNumber rd          = RecognizeBits (command, 7, 11);
+            ImmValue imm          = 0;
+            imm                   |= (RecognizeBits (command, 21, 30) << 1) | (RecognizeBits (command, 20, 20)  << 11) | 
+                                     (RecognizeBits (command, 12, 19)  << 12) | (RecognizeBits (command, 31, 31)  << 20);
+
             imm = ExtendedImm (imm, 19);
             return ImplJal (state, imm, rd);
         }
         case Op7: { //jalr
 
-            RegValue rd          = RecognizeBits (command, 7, 11);
-            RegValue rs1         = RecognizeBits (command, 15, 19);
-            ImmValue imm         = RecognizeBits (command, 20, 31);
+            RegNumber rd          = RecognizeBits (command, 7, 11);
+            RegNumber rs1         = RecognizeBits (command, 15, 19);
+            ImmValue imm          = RecognizeBits (command, 20, 31);
             imm = ExtendedImm (imm, 11);
             return ImplJalR (state, imm, rs1, rd);
         }
         case Op8: { //beq, bne, blt, bge, bltu, bgeu //TODO ...really TODO...
+            
+            ImmValue imm          = 0;
+            ImmValue funct3       = RecognizeBits (command, 12, 14);
+            RegNumber rs1         = RecognizeBits (command, 15, 19);
+            RegNumber rs2         = RecognizeBits (command, 20, 24);
 
-            ImmValue imm1        = RecognizeBits (command, 7, 11);
-            ImmValue imm2        = RecognizeBits (command, 12, 14);
-            RegValue rs1         = RecognizeBits (command, 15, 19);
-            RegValue rs2         = RecognizeBits (command, 20, 24);
-            ImmValue imm3        = RecognizeBits (command, 25, 31);
+            imm                  |= (RecognizeBits (command, 8, 11) << 1) | (RecognizeBits (command, 25, 30)  << 5) | 
+                                    (RecognizeBits (command, 7, 7)  << 11) | (RecognizeBits (command, 31, 31)  << 12);
 
-            return BranchOpsHandle (imm3, rs2, rs1, imm2, imm1); //TODO:  
+            imm = ExtendedImm (imm, 11);
+            return BranchOpsHandle (state, imm, rs2, rs1, funct3); //TODO:  
         }
         default:
             printf ("Unknown opcode %d\n", opcode);
