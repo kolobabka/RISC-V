@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kolobaka2000/PRIVATE/RISC-V-my/common.h
+stdio.h
+-
+stdlib.h
+-
+stdint.h
+-
+sys/types.h
+-
+fcntl.h
+-
+sys/stat.h
+-
+unistd.h
+-
+errno.h
+-
+parser/parser.h
+/home/kolobaka2000/PRIVATE/RISC-V-my/parser/parser.h
+
+/home/kolobaka2000/PRIVATE/RISC-V-my/implement/implement.c
+../common.h
+/home/kolobaka2000/PRIVATE/RISC-V-my/common.h
+
+/home/kolobaka2000/PRIVATE/RISC-V-my/implement/implement.h
+physmemory.h
+/home/kolobaka2000/PRIVATE/RISC-V-my/implement/physmemory.h
+
+/home/kolobaka2000/PRIVATE/RISC-V-my/implement/physmemory.h
+stdint.h
+-
+
+/home/kolobaka2000/PRIVATE/RISC-V-my/parser/parser.h
+../implement/implement.h
+/home/kolobaka2000/PRIVATE/RISC-V-my/implement/implement.h
+
