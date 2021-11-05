@@ -290,12 +290,20 @@ static char CommandRecognizer (const Mask command, State *state) {
         }
         case Op6: { //jal
 
+            for (int i = 0; i < 32; i++) {
+
+                printf ("%d ", (command [i / 8] >> (i % 8)) & 1);
+
+            }
+            printf ("\n");
+
             RegNumber rd          = RecognizeBits (command, 7, 11);
             ImmValue imm          = 0;
-            imm                   |= (RecognizeBits (command, 21, 30) << 1) | (RecognizeBits (command, 20, 20)  << 11) | 
-                                     (RecognizeBits (command, 12, 19)  << 12) | (RecognizeBits (command, 31, 31)  << 20);
-
+            imm                   |= (RecognizeBits (command, 21, 30) << 1) + (RecognizeBits (command, 20, 20)  << 11) + 
+                                     (RecognizeBits (command, 12, 19)  << 12) + (RecognizeBits (command, 31, 31)  << 20);
+            printf ("imm before extend = %u\n", imm);
             imm = ExtendedImm (imm, 19);
+            //imm -= 1552386;
             return ImplJal (state, imm, rd);
         }
         case Op7: { //jalr

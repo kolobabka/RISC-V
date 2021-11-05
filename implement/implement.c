@@ -8,6 +8,9 @@ char ImplAdd  (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numRd
     
     state->Registors[numRd] = state->Registors[numRs1] + state->Registors[numRs2];
     state->pc += 4;
+    printf ("***add = %d\n", state->Registors[numRd]);
+    printf ("num = %d\n", numRd);
+    printf ("pc = %d\n", state->pc);
     return 0;
 } 
 //-------------------------------------------------------------------------
@@ -17,8 +20,9 @@ char ImplAddI (State* state, ImmValue imm,  RegNumber numRs1, RegNumber numRd) {
 
     state->Registors[numRd] = state->Registors[numRs1] + imm;
     state->pc += 4;
-    printf ("***addi = %u\n", state->Registors[numRd]);
+    printf ("***addi = %d\n", state->Registors[numRd]);
     printf ("num = %d\n", numRd);
+    printf ("pc = %d\n", state->pc);
     return 0;
 }
 //-------------------------------------------------------------------------
@@ -75,7 +79,7 @@ char ImplXor   (State* state, RegNumber numRs1, RegNumber numRs2, RegNumber numR
     
     state->Registors[numRd] = state->Registors[numRs1] ^ state->Registors[numRs2];
     state->pc += 4;
-    printf ("***xor = %u\n", state->Registors[numRd]);
+    printf ("***xor = %d\n", state->Registors[numRd]);
     printf ("num = %d\n", numRd);
     printf ("PC = %d\n", state->pc);
     return 0;
@@ -88,7 +92,7 @@ char ImplXorI   (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber num
     
     state->Registors[numRd] = state->Registors[numRs1] ^ imm;
     state->pc += 4;
-    printf ("***xorI = %u\n", state->Registors[numRd]);
+    printf ("***xorI = %d\n", state->Registors[numRd]);
     printf ("num = %d\n", numRd);
     return 0;
 }
@@ -105,7 +109,7 @@ char ImplSltI (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numRd
         state->Registors[numRd] = 0;    
 
     state->pc += 4;
-    printf ("***SLTI = %u\n", state->Registors[numRd]);
+    printf ("***SLTI = %d\n", state->Registors[numRd]);
     printf ("num = %d\n", numRd);
     return 0;
 }
@@ -119,7 +123,7 @@ char ImplSltIU (State* state, ImmValue  imm,    RegNumber numRs1, RegNumber numR
     else    
         state->Registors[numRd] = 0;      
     state->pc += 4;
-    printf ("***SLTIU = %u\n", state->Registors[numRd]);
+    printf ("***SLTIU = %d\n", state->Registors[numRd]);
     printf ("num = %d\n", numRd);
     return 0;
 }
@@ -227,8 +231,13 @@ char ImplJal   (State* state, ImmValue  imm,   RegNumber numRd) {
 
     ZERO_POINTER
 
-    state->Registors[numRd] = state->pc + sizeof (RegValue);
-    state->pc += imm << 1;
+    state->Registors[numRd] = state->pc + 4;
+    state->pc += imm;
+
+    printf ("***jal = %d\n", state->Registors[numRd]);
+    printf ("imm = %u\n", imm);
+    printf ("num = %d\n", numRd);
+    printf ("pc = %d\n", state->pc);
     return 0;
 }
 //-------------------------------------------------------------------------
