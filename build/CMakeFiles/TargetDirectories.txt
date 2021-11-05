@@ -1,3 +1,0 @@
-/home/kolobaka2000/PRIVATE/RISC-V-my/build/CMakeFiles/rebuild_cache.dir
-/home/kolobaka2000/PRIVATE/RISC-V-my/build/CMakeFiles/edit_cache.dir
-/home/kolobaka2000/PRIVATE/RISC-V-my/build/CMakeFiles/interpreter.dir
